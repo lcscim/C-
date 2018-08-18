@@ -151,4 +151,7 @@
 		（类型说明符）表达式
 		类型转换操作符<类型说明符>（表达式）
 		类型转换操作符可以是const_cast,dynamic_cast,reinterpret_cast,static_cast
-	
+- C++注释
+
+	- 单行注释：//
+	- 多行注释：/*注释内容*/
