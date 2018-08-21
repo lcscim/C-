@@ -121,4 +121,137 @@
 			return 0;
 			
 		}
+- 分段函数
+
+		#include "pch.h"
+		#include<iostream>
+		#include<cmath>		//该头文件包含一系列与数学有关的函数
+		using namespace std;
 		
+		const double TINY_VALUE = 1e-10;
+		double tsin(double x) {
+			double g = 0;
+			double t = x;
+			int n = 1;
+			do
+			{
+				g += 1;
+				n++;
+				t = -t * x*x / (2 * n - 1) / (2 * n - 2);
+			} while (fabs(t)>=TINY_VALUE);	//fabs是绝对值
+			return g;
+		}
+		
+		int main() {
+			double k, r, s;
+			cout << "r = ";
+			cin >> r;
+			cout << "s=";
+			cin >> s;
+			if (r*r <= s * s)
+				k = sqrt(tsin(r)*tsin(r) + tsin(s)*tsin(s));
+			else
+				k = tsin(r*s) / 2;
+			cout << k << endl;
+			return 0;
+		}	
+##3.函数的嵌套调用
+函数之间可以嵌套使用，如：
+
+	#include "pch.h"
+	#include<iostream>
+	#include<cmath>
+	using namespace std;
+	
+	int fun1(int x) {
+		return x * x;
+	}
+	int fun2(int x, int y) {
+		return fun1(x) + fun1(y);
+	}
+	
+	int main() {
+		int a, b;
+		cout << "输入两个值，并求其平方和" << endl;
+		cin >> a >> b;
+		cout << "结果为" << fun2(a, b);
+		return 0;
+	}
+##4.函数的递归调用
+即函数直接或间接自己调用自己，称为递归调用：比如n的阶乘
+
+	#include "pch.h"
+	#include<iostream>
+	using namespace std;
+	
+	unsigned fac(unsigned n) {
+		unsigned f;
+		if (n == 0) {
+			f = 1;
+		}
+		else
+		{
+			f = fac(n - 1)*n;
+		}
+		return f;
+	}
+	
+	int main() {
+		int a;
+		cout << "输入一个数并求其阶乘" << endl;
+		cin >> a;
+		cout << "结果为" << fac(a);
+		return 0;
+	}
+- 从n个人中选取K个人组成委员会
+
+		#include "pch.h"
+		#include<iostream>
+		using namespace std;
+		
+		int comm(int n, int k) {
+			if (k > n) {
+				return 0;
+			}
+			else if (n==k||k==0)
+			{
+				return 1;
+			}
+			else
+			{
+				return comm(n - 1, k) + comm(n - 1, k - 1);
+			} 
+		}
+		
+		int main() {
+			int a,b;
+			cout << "在a个人中找b个人有几种组合方法" << endl;
+			cin >> a >> b;
+			cout << "结果为" << comm(a, b);
+			return 0;
+		}
+- 汉诺塔游戏，将n个盘子从a移动到c,并且只能大的压小的
+		
+		#include "pch.h"
+		#include<iostream>
+		using namespace std;
+		void move(char src, char dest) {
+			cout << src << "-->" << dest << endl;
+		}
+		void hanoi(int n, char src, char medium, char dest) {
+			if (n == 1)
+				move(src, dest);
+			else {
+				hanoi(n - 1, src, dest, medium);
+				move(src, dest);
+				hanoi(n - 1, medium, src, dest);
+			}
+		}
+		
+		int main() {
+			int a;
+			cout << "汉诺塔游戏，有几个盘子" << endl;
+			cin >> a;
+			hanoi(a, 'A', 'B', 'C');
+			return 0;
+		}
