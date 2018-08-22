@@ -255,3 +255,172 @@
 			hanoi(a, 'A', 'B', 'C');
 			return 0;
 		}
+##5.函数的参数传递
+- 在函数调用时才分配形参的存储单元
+- 实参可以是常量，变量，或表达式
+- 实参类型必须与形参相符
+- 值传递是传递参数值，即单项传递
+- 引用传递可以实现双向传递
+- 常量引用参数可以保障实参数据的安全
+
+##6.引用类型：
+- 引用（&）是标识符的别名
+- 定义一个引用时必须同时怼他进行初始化，是他实现一个已存在的对象
+
+	如：
+		int i,j; 
+		int &ri = i;//定义int引用ri,并初始化为变量i的引用
+		j = 10;
+		ri = j;//相当于i=j
+- 一旦一个引用被初始化后就不能改为指向其他对象
+- 引用可以作为形参
+		
+		#include<iostream>
+		using namespace std;
+		
+		void swap(int &a,int &b){
+			int t=a;
+			a=b;
+			b=t;
+		}
+		
+		int main() {
+			int x = 5,y=10;
+			cout<<"x="<<x<<"y="<<y<<endl;
+			swap(x,y);
+			cout<<"x="<<x<<"y="<<y<<endl;
+			return 0;
+}
+##7.含有可变参数的函数
+- 定义可变形参个数的参数表
+
+	- 如果所有的实参类型相同，可以传递一个名为initializer_list的标准库类型
+	- 如果实参的类型不同，可以编写可变参数的模板
+
+- initializer_list
+
+	initializer_list是一种标准库类型，用于表示某种特定类型的值的数组，该类型定义在同名的头文件中
+	initializer_list提供的操作：
+	- initializer_list<T> lst;默认初始化；T类型元素的空列表
+	- initializer_list<T>lst{a,b,c...};lst的元素数量和初始值一样多；lst的元素对应初始值的副本；列表中的元素是const
+	- lst2(lst);拷贝或者赋值一个initializer_list对象但不拷贝列表中的元素；拷贝后原始列表和副本共享元素
+	- lst2 = lst；和上一个相同
+	- lst.size();列表中的元素数量
+	- lst.begin();返回指向lst首元素的指针
+	- lst.end();返回指向lst尾元素下一位置的指针
+
+- initializer_list是一个类模板
+- 使用模板时，我们需要在模板名字后面跟一对尖括号，括号内是给出的类型参数
+
+	initializer_list<string> ls;
+	initializer_list<int> li;
+- initializer_list比较特殊的一点，其对象中的元素永远是常量值我们无法改变initializer_list对象中元素的值
+- 含有initializer_list形参的函数也可以同时拥有其他形参
+
+##8.内联函数
+可以使简短函数有效率的运行；
+- 内联函数声明时使用关键字inline
+- 内联函数内不能有循环语句和switch语句
+- 内联函数的定义必须出现在内联函数第一次被调用之前
+- 对内联函数不能进行异常接口声明
+
+示例：
+
+	#include<iostream>
+	using namespace std;
+	
+	const double PI = 3.14159265358979;
+	inline double calArea(double radius){
+		return PI*radius*radius;
+	}
+	
+	int main() {
+		double r = 3.0;
+		double area = calArea(r);
+		cout<<area<<endl;
+		return 0;
+	}
+##9.constexpr函数，常量表达式函数
+用来初始化常量的函数
+- 语法规定：constexpr修饰的函数，在其所有参数是constexpr时一定返回constexpr
+- 举例：
+
+	constexpr int get_size(){return 20;}
+	constexpr int foo = get_size();//foo是一个常量表达式
+带默认参数值的函数：
+
+	#include<iostream>
+	#include<iomanip>	//此头文件是输入/输出操纵符库的一部分。
+	using namespace std;
+	
+	int getVolume(int length,int width = 2,int height=3);
+	
+	int main() {
+		const int X = 10,Y=12,Z=15;
+		cout<<"Some box data is";
+		cout<<getVolume(X,Y,Z)<<endl;
+		cout<<"Some box data is";
+		cout<<getVolume(X,Y)<<endl;
+		cout<<"Some box data is";
+		cout<<getVolume(X)<<endl;
+		return 0;
+	}
+	int getVolume(int length,int width,int height){
+		cout<<setw(5)<<length<<setw(5)<<width<<setw(5)<<height<<'\t';	//setw(5)更改下个输入/输出域的宽度
+		return length*width*height;
+	}
+##10.函数重载
+C++允许功能相近的函数在相同的作用域内以相同的函数名声明，从而形成重载
+- 重载函数的形参必须不同：个数不同或类型不同
+- 编译程序将根据实参和形参的类型及个数的最佳匹配来选择调用哪一个函数
+- 不要讲不同功能的函数声明为重载函数，以免出现调用结果误解混淆
+
+示例：
+
+	#include<iostream>
+	using namespace std;
+	int sumOfSquare(int a,int b){
+		return a*a+b*b;
+	}
+	double sumOfSquare(double a,double b){
+		return a*a+b*b;
+	}
+	int main() {
+		int m,n;
+		cout<<"Enter two integer:";
+		cin>>m>>n;
+		cout<<"Their sum of square:"<<sumOfSquare(m,n)<<endl;
+		double x,y;
+		cout<<"Enter two real number:";
+		cin>>x>>y;
+		cout<<"Their sum of square:"<<sumOfSquare(m,n)<<endl;
+		
+		return 0;
+	}
+##10.C++系统函数
+- C++的系统库中提供了几百个函数可供使用，如
+
+	求平方根函数（sprt）
+	求绝对值函数（abs）
+- 使用系统函数时要包含相应的头文件如cmath
+
+	使用：#include<cmath>
+
+示例：
+
+		#include<iostream>
+		#include<cmath>
+		using namespace std;
+		const double PI = 3.14159265358979;
+		int main() {
+			double angle;
+			cout<<"pleas enter an angle:";
+			cin>>angle;
+			double radian = angle*PI/180;//将角度值转为弧度值 
+			cout<<"sin("<<angle<<")"<<sin(radian)<<endl;
+			cout<<"cos("<<angle<<")"<<cos(radian)<<endl;
+			cout<<"tan("<<angle<<")"<<tan(radian)<<endl;
+			return 0;
+		}
+##11.小结
+- 可以将一个项目分解为多个函数

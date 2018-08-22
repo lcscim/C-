@@ -1,22 +1,15 @@
 #include<iostream>
+#include<cmath>
 using namespace std;
-
-bool symm(unsigned n){
-	unsigned i = n;
-	unsigned m = 0;
-	while(i>0){
-		m = m*10+i%10;
-		i/=10;
-	}
-	return m==n;
-}
-int main(){
-	cout<<"符合条件的数有：";
-	for(unsigned a = 11;a<=999;a++)
-		if(symm(a)&&symm(a*a)&&symm(a*a*a)){
-			cout<<a<<",";
-		}
+const double PI = 3.14159265358979;
+int main() {
+	double angle;
+	cout<<"pleas enter an angle:";
+	cin>>angle;
+	double radian = angle*PI/180;//将角度值转为弧度值 
+	cout<<"sin("<<angle<<")"<<sin(radian)<<endl;
+	cout<<"cos("<<angle<<")"<<cos(radian)<<endl;
+	cout<<"tan("<<angle<<")"<<tan(radian)<<endl;
 	return 0;
-	
 }
 
