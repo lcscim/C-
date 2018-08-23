@@ -1,15 +1,47 @@
-#include<iostream>
-#include<cmath>
+#include <iostream>
 using namespace std;
-const double PI = 3.14159265358979;
-int main() {
-	double angle;
-	cout<<"pleas enter an angle:";
-	cin>>angle;
-	double radian = angle*PI/180;//将角度值转为弧度值 
-	cout<<"sin("<<angle<<")"<<sin(radian)<<endl;
-	cout<<"cos("<<angle<<")"<<cos(radian)<<endl;
-	cout<<"tan("<<angle<<")"<<tan(radian)<<endl;
-	return 0;
-}
 
+enum CPU_Rank{
+	P1 = 1,P2,P3,P4,P5,P6,P7
+};
+class CPU{
+	private:
+		CPU_Rank rank;
+		int frequency;
+		float voltage;
+	public:
+		CPU(CPU_Rank r,int f,float v){
+			rank = r;
+			frequency = f;
+			voltage=v;
+			cout<<"构造了一个CPU"<<endl; 
+		}
+		~CPU(){
+			cout<<"析构了一个CPU"<<endl;
+		}
+		CPU_Rank GetRank()const{return rank;}
+		int GetFrequency()const{return frequency;}
+		float GetVoltage()const{return voltage;}
+		void setRank(CPU_Rank r){
+			rank = r;
+		}
+		void setFrequency(int f){
+			frequency = f;
+		}
+		void setVoltage(float v){
+			voltage = v;
+		}
+		void Run(){
+			cout<<"CPU开始运行"<<endl; 
+		}
+		void stop(){
+			cout<<"CPU停止运行"<<endl; 
+		}
+};
+
+int main( ){
+	CPU a(P6,300,2.8);
+	a.Run();
+	a.stop(); 
+   	return 0;
+}
